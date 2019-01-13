@@ -7,6 +7,8 @@ class FindtrapsSpider(scrapy.Spider):
     allowed_domains = ['utexas.edu']
     start_urls = ['http://utexas.edu']
 
+    handle_httpstatus_list = [404]
+
     def parse(self, response):
         if response.status == 404:
             yield {
