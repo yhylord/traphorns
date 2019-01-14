@@ -10,11 +10,18 @@ class FindtrapsSpider(scrapy.Spider):
     handle_httpstatus_list = [404]
 
     def parse(self, response):
+        url = response.url
         if response.status == 404:
+            req = response.request
             yield {
-                'dead_link': response.request.meta.get('redirect_urls',
-                                                       [response.url])[0]
+                # headers in scrapy are bytes, need decoding to be str
+                'source': req.headers.get('referer', None).decode(),
+
+                # [url] as fallback when no redirect_urls
+                # need to be list so type matches
+                'dead_link': req.meta.get('redirect_urls', [url])[0]
             }
         else:
             for link in response.css('a::attr(href)'):
-                yield response.follow(link, callback=self.parse)
+                yield response.follow(link, headers={'referer': url},
+                                      callback=self.parse)
