@@ -28,6 +28,8 @@ class FindtrapsSpider(scrapy.Spider):
             'dead': dead
         }
 
-        for link in response.css('a::attr(href)'):
-            yield response.follow(link, headers={'referer': url},
-                                  callback=self.parse)
+        if not dead:
+            # only follow links if not 404, otherwise can cause infinite loop
+            for link in response.css('a::attr(href)'):
+                yield response.follow(link, headers={'referer': url},
+                                      callback=self.parse)
