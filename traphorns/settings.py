@@ -14,6 +14,11 @@ BOT_NAME = 'traphorns'
 SPIDER_MODULES = ['traphorns.spiders']
 NEWSPIDER_MODULE = 'traphorns.spiders'
 
+DOWNLOAD_TIMEOUT = 10
+
+DEPTH_PRIORITY = 1
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'traphorns (+http://www.yourdomain.com)'
@@ -88,3 +93,8 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
