@@ -10,6 +10,10 @@ class FindtrapsSpider(scrapy.Spider):
     handle_httpstatus_list = [404]
 
     def parse(self, response):
+        # skip non-HTML response
+        if not isinstance(response, scrapy.http.HtmlResponse):
+            return
+
         url = response.url
         req = response.request
         dead = response.status == 404
