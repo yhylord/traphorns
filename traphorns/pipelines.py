@@ -30,7 +30,8 @@ class TraphornsPipeline(object):
         if item['source']:
             columns = (self.table_name,
                        item['source'], item['link'], item['dead'])
-            self.db.execute('INSERT INTO ? VALUES (?,?,?)', columns)
+            statement = 'INSERT INTO ? (source, link, dead) VALUES (?,?,?)'
+            self.db.execute(statement, columns)
             return item
         else:  # no source, must be one of start urls
             raise DropItem('Omit start url, item: {}'.format(item))
