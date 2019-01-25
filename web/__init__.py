@@ -25,4 +25,7 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
+    from . import trap
+    app.register_blueprint(trap.bp)
+
     return app
